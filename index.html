@@ -3,65 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Battle Animation</title>
+    <title>Surprise for My Love</title>
     <style>
         body {
             text-align: center;
-            background-color: #222;
-            color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: url('https://wallpapers.com/images/featured/anime-sky-background-3dfzbfcehk44v5p9.jpg') no-repeat center center/cover;
         }
-        .battlefield {
-            width: 80%;
-            height: 300px;
-            margin: auto;
-            position: relative;
-            border: 2px solid white;
-            background: linear-gradient(to right, #111, #333);
+
+        .container {
+            margin-top: 100px;
         }
-        .fighter {
-            width: 50px;
-            height: 50px;
+
+        .message {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 10px #ff69b4;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 1s ease-in, transform 1s ease-in;
+        }
+
+        .show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .flower, .heart, .sparkle {
             position: absolute;
-            bottom: 20px;
-            transition: transform 0.3s;
+            font-size: 30px;
+            animation: float 4s infinite ease-in-out;
         }
-        .fighter1 {
-            left: 10%;
-            background: red;
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-60px); opacity: 0.6; }
+            100% { transform: translateY(-120px); opacity: 0; }
         }
-        .fighter2 {
-            right: 10%;
-            background: blue;
+
+        button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 22px;
+            background: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0px 0px 10px #ff4081;
         }
-        .attack {
-            animation: attackAnimation 0.5s linear;
+
+        button:hover {
+            background: #d63384;
         }
-        @keyframes attackAnimation {
-            0% { transform: translateX(0); }
-            50% { transform: translateX(50px); }
-            100% { transform: translateX(0); }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(255, 20, 147, 0.6);
+            text-align: center;
+            z-index: 100;
+            font-size: 24px;
+            font-weight: bold;
+            color: #d63384;
+            text-shadow: 1px 1px 5px #ff69b4;
+        }
+
+        .popup button {
+            background: #d63384;
+            padding: 12px 25px;
+            border: none;
+            margin-top: 15px;
+            color: white;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background: #b02565;
         }
     </style>
 </head>
 <body>
 
-    <h2>Fighter Battle Animation</h2>
-    <div class="battlefield">
-        <div class="fighter fighter1" id="fighter1"></div>
-        <div class="fighter fighter2" id="fighter2"></div>
+    <div class="container">
+        <button onclick="showSurprise()">Click Me, My Love 💕</button>
+        <p class="message" id="message"></p>
     </div>
-    <br>
-    <button onclick="attack('fighter1')">Fighter 1 Attack</button>
-    <button onclick="attack('fighter2')">Fighter 2 Attack</button>
+
+    <div class="popup" id="popup">
+        <h2>💖 My Beautiful Angel 💖</h2>
+        <p>You are my dream come true. You are my everything. I love you beyond words! ❤️</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
 
     <script>
-        function attack(fighterId) {
-            let fighter = document.getElementById(fighterId);
-            fighter.classList.add("attack");
+        function showSurprise() {
+            let messages = [
+                "My love, you are my sunshine! ☀️❤️",
+                "I love you more than words can say! 💕",
+                "You make my life magical and beautiful! ✨",
+                "You are my forever and always! 💖"
+            ];
+            let randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+            let messageElement = document.getElementById("message");
+            messageElement.textContent = randomMessage;
+            messageElement.classList.add("show");
+
+            // Floating flowers, hearts, and sparkles
+            for (let i = 0; i < 20; i++) {
+                let item = document.createElement("div");
+                item.className = Math.random() > 0.5 ? "flower" : (Math.random() > 0.5 ? "heart" : "sparkle");
+                item.innerHTML = item.className === "flower" ? "🌸" : item.className === "heart" ? "❤️" : "✨";
+                item.style.left = Math.random() * 100 + "vw";
+                item.style.top = Math.random() * 80 + "vh";
+                item.style.fontSize = Math.random() * 20 + 20 + "px";
+                document.body.appendChild(item);
+
+                setTimeout(() => {
+                    item.remove();
+                }, 4000);
+            }
+
+            // Show popup after 3 seconds
             setTimeout(() => {
-                fighter.classList.remove("attack");
-            }, 500);
+                document.getElementById("popup").style.display = "block";
+            }, 3000);
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
         }
     </script>
 
